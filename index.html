@@ -1,68 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Pointage</title>
+<meta charset="UTF-8">
+<title>Pointage</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+  }
 
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 320px;
-    }
+  h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
+  label {
+    font-weight: bold;
+  }
 
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+  input, select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 15px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-    button:hover {
-      background: #0056b3;
-    }
-  </style>
+  button:hover {
+    background: #0056b3;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background: #007bff;
+    color: white;
+  }
+</style>
 </head>
 
 <body>
 
+<h1>📋 Pointage des employés</h1>
+
 <div class="container">
-  <h2>Pointage employé</h2>
 
   <label>Nom :</label>
   <input type="text" id="nom">
@@ -76,7 +90,21 @@
   <label>Heure départ :</label>
   <select id="depart"></select>
 
-  <button onclick="envoyer()">Envoyer</button>
+  <button onclick="envoyer()">Ajouter</button>
+
+  <!-- TABLEAU -->
+  <table id="tableau">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Date</th>
+        <th>Arrivée</th>
+        <th>Départ</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
 </div>
 
 <script>
@@ -85,10 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const arrivee = document.getElementById("arrivee");
   const depart = document.getElementById("depart");
 
-  // Génération des heures
+  // Heures
   for (let h = 8; h <= 20; h++) {
     let heure = (h < 10 ? "0" + h : h) + ":00";
-
     arrivee.add(new Option(heure, heure));
     depart.add(new Option(heure, heure));
   }
@@ -96,36 +123,32 @@ document.addEventListener("DOMContentLoaded", function () {
   // Date automatique
   document.getElementById("date").valueAsDate = new Date();
 
-  // Fonction envoyer
+  // Fonction ajouter au tableau
   window.envoyer = function () {
 
     const nom = document.getElementById("nom").value.trim();
     const date = document.getElementById("date").value;
 
     if (!nom) {
-      alert("Veuillez entrer un nom !");
-      return;
-    }
-
-    if (!date) {
-      alert("Veuillez choisir une date !");
+      alert("Entrez un nom !");
       return;
     }
 
     if (depart.value <= arrivee.value) {
-      alert("Heure de départ invalide !");
+      alert("Heure invalide !");
       return;
     }
 
-    const data = {
-      nom,
-      date,
-      arrivee: arrivee.value,
-      depart: depart.value
-    };
+    const table = document.querySelector("#tableau tbody");
+    const row = table.insertRow();
 
-    console.log(data);
-    alert("Pointage enregistré !");
+    row.insertCell(0).textContent = nom;
+    row.insertCell(1).textContent = date;
+    row.insertCell(2).textContent = arrivee.value;
+    row.insertCell(3).textContent = depart.value;
+
+    // Reset champ
+    document.getElementById("nom").value = "";
   };
 
 });
