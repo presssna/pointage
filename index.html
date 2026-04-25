@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pointage</title>
 
 <style>
@@ -27,13 +28,17 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
+  /* 🔥 CORRECTION ICI */
   label {
+    display: block;
     font-weight: bold;
+    margin-top: 10px;
   }
 
   input, select {
+    display: block;
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin: 5px 0 15px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -92,7 +97,6 @@
 
   <button onclick="envoyer()">Ajouter</button>
 
-  <!-- TABLEAU -->
   <table id="tableau">
     <thead>
       <tr>
@@ -113,17 +117,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const arrivee = document.getElementById("arrivee");
   const depart = document.getElementById("depart");
 
-  // Heures
   for (let h = 8; h <= 20; h++) {
     let heure = (h < 10 ? "0" + h : h) + ":00";
     arrivee.add(new Option(heure, heure));
     depart.add(new Option(heure, heure));
   }
 
-  // Date automatique
   document.getElementById("date").valueAsDate = new Date();
 
-  // Fonction ajouter au tableau
   window.envoyer = function () {
 
     const nom = document.getElementById("nom").value.trim();
@@ -147,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
     row.insertCell(2).textContent = arrivee.value;
     row.insertCell(3).textContent = depart.value;
 
-    // Reset champ
     document.getElementById("nom").value = "";
   };
 
