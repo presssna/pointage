@@ -23,7 +23,8 @@
 <button onclick="envoyer()">Envoyer</button>
 
 <script>
-  // remplir heures sans bug
+document.addEventListener("DOMContentLoaded", function () {
+
   let arrivee = document.getElementById("arrivee");
   let depart = document.getElementById("depart");
 
@@ -41,10 +42,9 @@
     depart.add(o2);
   }
 
-  // date automatique
   document.getElementById("date").valueAsDate = new Date();
 
-  function envoyer() {
+  window.envoyer = function () {
     let data = {
       nom: document.getElementById("nom").value,
       date: document.getElementById("date").value,
@@ -52,9 +52,21 @@
       depart: depart.value
     };
 
+    if (!data.nom) {
+      alert("Veuillez entrer un nom !");
+      return;
+    }
+
+    if (data.depart <= data.arrivee) {
+      alert("Heure de départ invalide !");
+      return;
+    }
+
     console.log(data);
     alert("Envoyé !");
-  }
+  };
+
+});
 </script>
 
 </body>
