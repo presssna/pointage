@@ -2,64 +2,59 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Pointage Employé</title>
+  <title>Pointage</title>
 </head>
 <body>
 
-<h2>Pointage Employé</h2>
+<h2>Pointage employé</h2>
 
-<form id="form">
-  <label>Nom :</label><br>
-  <input type="text" id="nom" required><br><br>
+<label>Nom :</label><br>
+<input type="text" id="nom"><br><br>
 
-  <label>Date :</label><br>
-  <input type="date" id="date" required><br><br>
+<label>Date :</label><br>
+<input type="date" id="date"><br><br>
 
-  <label>Heure d'arrivée :</label><br>
-  <select id="arrivee"></select><br><br>
+<label>Heure arrivée :</label><br>
+<select id="arrivee"></select><br><br>
 
-  <label>Heure de départ :</label><br>
-  <select id="depart"></select><br><br>
+<label>Heure départ :</label><br>
+<select id="depart"></select><br><br>
 
-  <button type="submit">Envoyer</button>
-</form>
+<button onclick="envoyer()">Envoyer</button>
 
 <script>
-  // Remplir heures 08h à 20h
-  const arrivee = document.getElementById("arrivee");
-  const depart = document.getElementById("depart");
+  // remplir heures sans bug
+  let arrivee = document.getElementById("arrivee");
+  let depart = document.getElementById("depart");
 
   for (let h = 8; h <= 20; h++) {
     let heure = (h < 10 ? "0" + h : h) + ":00";
 
-    let option1 = document.createElement("option");
-    option1.value = heure;
-    option1.textContent = heure;
-    arrivee.appendChild(option1);
+    let o1 = document.createElement("option");
+    o1.text = heure;
+    o1.value = heure;
+    arrivee.add(o1);
 
-    let option2 = document.createElement("option");
-    option2.value = heure;
-    option2.textContent = heure;
-    depart.appendChild(option2);
+    let o2 = document.createElement("option");
+    o2.text = heure;
+    o2.value = heure;
+    depart.add(o2);
   }
 
-  // Date automatique
+  // date automatique
   document.getElementById("date").valueAsDate = new Date();
 
-  // Formulaire
-  document.getElementById("form").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const data = {
+  function envoyer() {
+    let data = {
       nom: document.getElementById("nom").value,
       date: document.getElementById("date").value,
-      arrivee: document.getElementById("arrivee").value,
-      depart: document.getElementById("depart").value
+      arrivee: arrivee.value,
+      depart: depart.value
     };
 
     console.log(data);
-    alert("Envoyé avec succès !");
-  });
+    alert("Envoyé !");
+  }
 </script>
 
 </body>
