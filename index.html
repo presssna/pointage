@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pointage Employé</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Pointage</h2>
+
+  <form id="form">
+    <label>Nom</label>
+    <input type="text" id="nom" required>
+
+    <label>Date</label>
+    <input type="date" id="date" required>
+
+    <label>Heure d'arrivée</label>
+    <select id="arrivee"></select>
+
+    <label>Heure de départ</label>
+    <select id="depart"></select>
+
+    <button type="submit">Envoyer</button>
+  </form>
+</div>
+
+<script>
+  // Générer les heures de 08h à 20h
+  function remplirHeures(selectId) {
+    const select = document.getElementById(selectId);
+    for (let h = 8; h <= 20; h++) {
+      let heure = (h < 10 ? "0" + h : h) + ":00";
+      let option = document.createElement("option");
+      option.value = heure;
+      option.textContent = heure;
+      select.appendChild(option);
+    }
+  }
+
+  remplirHeures("arrivee");
+  remplirHeures("depart");
+
+  // Date du jour par défaut
+  document.getElementById("date").valueAsDate = new Date();
+
+  // Gestion du formulaire
+  document.getElementById("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const data = {
+      nom: document.getElementById("nom").value,
+      date: document.getElementById("date").value,
+      arrivee: document.getElementById("arrivee").value,
+      depart: document.getElementById("depart").value
+    };
+
+    console.log(data);
+    alert("Données envoyées !");
+  });
+</script>
+
+</body>
+</html>
