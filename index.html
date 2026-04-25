@@ -3,67 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <title>Pointage</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Pointage employé</h2>
+<div class="container">
+  <h2>Pointage employé</h2>
 
-<label>Nom :</label><br>
-<input type="text" id="nom"><br><br>
+  <label>Nom :</label>
+  <input type="text" id="nom">
 
-<label>Date :</label><br>
-<input type="date" id="date"><br><br>
+  <label>Date :</label>
+  <input type="date" id="date">
 
-<label>Heure arrivée :</label><br>
-<select id="arrivee"></select><br><br>
+  <label>Heure arrivée :</label>
+  <select id="arrivee"></select>
 
-<label>Heure départ :</label><br>
-<select id="depart"></select><br><br>
+  <label>Heure départ :</label>
+  <select id="depart"></select>
 
-<button onclick="envoyer()">Envoyer</button>
+  <button onclick="envoyer()">Envoyer</button>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  let arrivee = document.getElementById("arrivee");
-  let depart = document.getElementById("depart");
+  const arrivee = document.getElementById("arrivee");
+  const depart = document.getElementById("depart");
 
+  // Génération des heures
   for (let h = 8; h <= 20; h++) {
     let heure = (h < 10 ? "0" + h : h) + ":00";
 
-    let o1 = document.createElement("option");
-    o1.text = heure;
-    o1.value = heure;
-    arrivee.add(o1);
-
-    let o2 = document.createElement("option");
-    o2.text = heure;
-    o2.value = heure;
-    depart.add(o2);
+    arrivee.add(new Option(heure, heure));
+    depart.add(new Option(heure, heure));
   }
 
+  // Date automatique
   document.getElementById("date").valueAsDate = new Date();
 
+  // Fonction envoyer
   window.envoyer = function () {
-    let data = {
-      nom: document.getElementById("nom").value,
-      date: document.getElementById("date").value,
-      arrivee: arrivee.value,
-      depart: depart.value
-    };
 
-    if (!data.nom) {
+    const nom = document.getElementById("nom").value.trim();
+    const date = document.getElementById("date").value;
+
+    if (!nom) {
       alert("Veuillez entrer un nom !");
       return;
     }
 
-    if (data.depart <= data.arrivee) {
+    if (!date) {
+      alert("Veuillez choisir une date !");
+      return;
+    }
+
+    if (depart.value <= arrivee.value) {
       alert("Heure de départ invalide !");
       return;
     }
 
+    const data = {
+      nom,
+      date,
+      arrivee: arrivee.value,
+      depart: depart.value
+    };
+
     console.log(data);
-    alert("Envoyé !");
+    alert("Pointage enregistré !");
   };
 
 });
